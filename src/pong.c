@@ -14,18 +14,18 @@ void makeField(int racketFirstY, int racketSecondY, int ballX, int ballY, int sc
     for (int h = 0; h <= fieldH; h++) {
         for (int w = 0; w <= fieldW; w++) {
             if (h == 0 || h == fieldH) {
-                if (h == 0 && w == fieldW / 3) {
-                    printf("%d", scoreFirst);
-                    continue;
-                }
-                if (h == 0 && w == fieldW / 3 * 2) {
-                    printf("%d", scoreSecond);
-                    continue;
-                }
                 printf("%c", fieldGr);
                 continue;
             }
 
+            if (h == 4 && w == fieldW /9*4) {
+                printf("%d", scoreFirst);
+                continue;
+            }
+            if (h == 4 && w == fieldW / 9 * 6) {
+                printf("%d", scoreSecond);
+                continue;
+            }
             if (w == 0 || w == fieldW) {
                 printf("%c", fieldHr);
                 continue;
@@ -87,7 +87,7 @@ ballY = 12;
     int dir_y = 0;  // flag show the change of direction of fly ball y - direction
     int dir_x = 0;  // flag show the change of direction of fly ball x - direction
 
-printf("\033[H\033[J");  // устанавливаем курсор в верхний левый угол и стираем все что ниже 1
+printf("\033[H\033[J");  // устанавливаем курсор в верхний левый угол и стираем все что ниже
     makeField(racketFirstY, racketSecondY, ballX, ballY, 0, 0);
     // printf("\033[r");
     // game
