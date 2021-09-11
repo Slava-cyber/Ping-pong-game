@@ -5,8 +5,8 @@
 
 const int fieldH = 25;
 const int fieldW = 80;
-const char fieldHr = '#';
-const char fieldGr = '#';
+const char fieldHr = '|';
+const char fieldGr = '-';
 
 const int racketFirstH = 3;
 const int racketSecondH = 3;
@@ -25,11 +25,11 @@ void makeField(int racketFirstY, int racketSecondY, int ballX, int ballY, int sc
     for (int h = 0; h <= fieldH; h++) {
         for (int w = 0; w <= fieldW; w++) {
             if (h == 0 || h == fieldH) {
-                if (h == 0 && w == 23) {
+                if (h == 0 && w == fieldW / 3) {
 					printf("%d", scoreFirst);
 					continue;
 				}
-				if (h == 0 && w == 52) {
+				if (h == 0 && w == fieldW / 3 * 2) {
 					printf("%d", scoreSecond);
 					continue;
 				}
@@ -103,24 +103,27 @@ int main() {
             return 1;
         }
 
-        if (controlChar == 'A') {
-			if (racketFirstY <= 1) {
-			    racketFirstY++;
-				printf("%d\n", racketFirstY);
+        if (controlChar == 'a') {
+			if (racketFirstY > 2 && racketFirstY < 22) {
+			    racketFirstY--;
 			}
         }
 
-        if (controlChar == 'Z') {
-            if (racketFirstY >= 24) {
-			    racketFirstY--;
-				printf("%d\n", racketFirstY);
+        if (controlChar == 'z') {
+            if (racketFirstY > 2 && racketFirstY < 22) {
+			    racketFirstY++;
 			}
         }
-        if (controlChar == 'K') {
-            // printf("K\n");
+
+        if (controlChar == 'k') {
+            if (racketSecondY > 2 && racketSecondY < 22) {
+				racketSecondY--;
+			}
         }
-        if (controlChar == 'M') {
-            // printf("M\n");
+        if (controlChar == 'm') {
+            if (racketSecondY > 2 && racketSecondY < 22) {
+				racketSecondY++;
+			}
         }
 
         // next turn
@@ -137,8 +140,8 @@ int main() {
         // print field
         makeField(racketFirstY, racketSecondY, ballX, ballY, 0, 0);
         // clear screen
-        // printf("\e[1;1H\e[2J");
-        system("cls");
+        //printf("\e[1;1H\e[2J");
+        //system("cls");
     }
 
     // win intro
