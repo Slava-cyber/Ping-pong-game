@@ -19,12 +19,6 @@ const int winScore = 21;
 void makeField(int racketFirstY, int racketSecondY, int ballX, int ballY, int scoreFirst, int scoreSecond) {
     for (int h = 0; h <= fieldH; h++) {
         for (int w = 0; w <= fieldW; w++) {
-            
-            //if (w == ballX && h == ballY) {
-            //    printf("%c", ballC);
-            //    continue;
-            //}
-
             if (h == 0 || h == fieldH) {
                 if (h == 0 && w == fieldW / 3) {
                     printf("%d", scoreFirst);
@@ -43,15 +37,20 @@ void makeField(int racketFirstY, int racketSecondY, int ballX, int ballY, int sc
                 continue;
             }
 
+            if (w == ballX && h == ballY) {
+                printf("%c", ballC);
+                continue;
+            }
+
             if (w == fieldW / 2) {
                 printf("%c", fieldHr);
                 continue;
             }
 
-            if (w == ballX && h == ballY) {
+            /* if (w == ballX && h == ballY) {
                 printf("%c", ballC);
                 continue;
-            }
+            } */
 
             if (w == 2 && (h == racketFirstY - 1 || h == racketFirstY || h == racketFirstY + 1)) {
                 printf("%c", racketFirst);
@@ -134,54 +133,54 @@ int main() {
             }                      
 		}
 
-    if (flag) {
-        // fly ball move right
-        if (dir_x % 2 == 0) {
-            // switch control x - direction
-            if (ballX != 78){
-                ballX++;
-            } else {
-                if (ballY == racketSecondY || ballY+ 1 == racketSecondY || ballY - 1 == racketSecondY) {
-                    dir_x++;
-                    ballX--;                               
-                } else {
-                    scoreFirst++;
-                    flag_side = 1;
-                    flag = 0;   
-                }
-            }
-        } else { // fly ball move left
-            // switch control x - direction
-            if (ballX != 2) {
-                ballX--;
-            } else {
-                if (ballY == racketFirstY || ballY + 1 == racketFirstY || ballY - 1 == racketFirstY) {
-                    dir_x++;
+        if (flag) {
+            // fly ball move right
+            if (dir_x % 2 == 0) {
+                // switch control x - direction
+                if (ballX != 77){
                     ballX++;
                 } else {
-                    scoreSecond++;
-                    flag_side = 0;
-                    flag = 0;      
+                    if (ballY == racketSecondY || ballY+ 1 == racketSecondY || ballY - 1 == racketSecondY) {
+                        dir_x++;
+                        ballX--;                               
+                    } else {
+                        scoreFirst++;
+                        flag_side = 1;
+                        flag = 0;   
+                    }
+                }
+            } else { // fly ball move left
+                // switch control x - direction
+                if (ballX != 3) {
+                    ballX--;
+                } else {
+                    if (ballY == racketFirstY || ballY + 1 == racketFirstY || ballY - 1 == racketFirstY) {
+                        dir_x++;
+                        ballX++;
+                    } else {
+                        scoreSecond++;
+                        flag_side = 0;
+                        flag = 0;      
+                    }
                 }
             }
+            // switch control y - direction
+            if (dir_y % 2 == 0) {
+                if (ballY != 1) {
+                    ballY--;
+                } else {
+                    dir_y++;
+                    ballY++;
+                }
+            } else {
+                if (ballY != 24) {
+                    ballY++;
+                } else {
+                    dir_y++;
+                    ballY--;
+                }                
+            }       
         }
-        // switch control y - direction
-        if (dir_y % 2 == 0) {
-            if (ballY != 0) {
-                ballY--;
-            } else {
-                dir_y++;
-                ballY++;
-            }
-        } else {
-            if (ballY != 25) {
-                ballY++;
-            } else {
-                dir_y++;
-                ballY--;
-            }                
-        }       
-    }
 
         // break game
         if (controlChar == 'q') {
@@ -235,10 +234,13 @@ int main() {
 
 		system("clear");
         makeField(racketFirstY, racketSecondY, ballX, ballY, scoreFirst, scoreSecond);
-    }
 
-    // win intro
-    printf("Win!\n");
+        if (scoreFirst == 21 || scoreSecond == 21) {
+            system("clear");
+            printf("Win!\n");
+            break;
+        }
+    }
 
     return 0;
 }
