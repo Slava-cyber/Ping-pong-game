@@ -1,5 +1,3 @@
-// I WANT TO PLAY WITH YOU
-//        YOUR FRIEND, AI
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -19,26 +17,22 @@ const char ballC = 'O';
 const int winScore = 21;
 
 void makeField(int racketFirstY, int racketSecondY, int ballX, int ballY, int scoreFirst, int scoreSecond) {
-    printf("Field\n");
-    printf("%d\n", scoreFirst);
-    printf("%d\n", scoreSecond);
     for (int h = 0; h <= fieldH; h++) {
         for (int w = 0; w <= fieldW; w++) {
             if (h == 0 || h == fieldH) {
                 if (h == 0 && w == fieldW / 3) {
-					printf("%d", scoreFirst);
-					continue;
-				}
-				if (h == 0 && w == fieldW / 3 * 2) {
-					printf("%d", scoreSecond);
-					continue;
-				}
+                    printf("%d", scoreFirst);
+                    continue;
+                }
+                if (h == 0 && w == fieldW / 3 * 2) {
+                    printf("%d", scoreSecond);
+                    continue;
+                }
                 printf("%c", fieldGr);
                 continue;
             }
 
             if (w == 0 || w == fieldW) {
-				
                 printf("%c", fieldHr);
                 continue;
             }
@@ -50,20 +44,19 @@ void makeField(int racketFirstY, int racketSecondY, int ballX, int ballY, int sc
 
             if (w == ballX && h == ballY) {
                 printf("%c", ballC);
-				continue;
+                continue;
             }
 
             if (w == 2 && (h == racketFirstY - 1 || h == racketFirstY || h == racketFirstY + 1)) {
                 printf("%c", racketFirst);
-				continue;
+                continue;
             }
 
             if (w == 78 && (h == racketSecondY || h == racketSecondY - 1 || h == racketSecondY + 1)) {
 				printf("%c", racketSecond);
-				continue;
-			}
-			printf(" ");
-
+                continue;
+            }
+            printf(" ");
         }
         printf("\n");
     }
@@ -78,8 +71,6 @@ int main() {
 	int racketFirstY;
 	int racketSecondY;
 
-    printf("Start\n");
-
     // initial field
     scoreFirst = 0;
     scoreSecond = 0;
@@ -90,7 +81,6 @@ int main() {
 
 	ballX = 3;
 	ballY = 12;
-
 
     makeField(racketFirstY, racketSecondY, ballX, ballY, 0, 0);
     // game
@@ -128,20 +118,17 @@ int main() {
 
         // next turn
         if (controlChar == ' ') {
-            // printf("Space\n");
+            makeField(racketFirstY, racketSecondY, ballX, ballY, 0, 0);
+			system("clear");
+			continue;
         }
 
        // move ball
 
-        // move racket
-
         // calc score - if win
 
-        // print field
+		system("clear");
         makeField(racketFirstY, racketSecondY, ballX, ballY, 0, 0);
-        // clear screen
-        //printf("\e[1;1H\e[2J");
-        //system("cls");
     }
 
     // win intro
