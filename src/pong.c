@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 const int fieldH = 25;
 const int fieldW = 80;
@@ -12,9 +11,9 @@ const char racketFirst = ']';
 const char racketSecond = '[';
 
 const int ballH = 1;
-const char ballC = 'O';
+const char ballC = 'o';
 
-const int winScore = 21;
+const int winScore = 1;
 
 void makeField(int racketFirstY, int racketSecondY, int ballX, int ballY, int scoreFirst, int scoreSecond) {
     for (int h = 0; h <= fieldH; h++) {
@@ -94,7 +93,10 @@ int main() {
     int dir_y = 0; // flag show the change of direction of fly ball y - direction
     int dir_x = 0; // flag show the change of direction of fly ball x - direction
 
+printf("\033[H\033[J");//устанавливаем курсор в верхний левый угол и стираем все что ниже
     makeField(racketFirstY, racketSecondY, ballX, ballY, 0, 0);
+    //printf("\033[r");
+   
     // game
     while (1) {
 
@@ -232,15 +234,21 @@ int main() {
 
         // calc score - if win
 
-		system("clear");
+        printf("\033[H\033[J");//устанавливаем курсор в верхний левый угол и стираем все что ниже
         makeField(racketFirstY, racketSecondY, ballX, ballY, scoreFirst, scoreSecond);
 
-        if (scoreFirst == 21 || scoreSecond == 21) {
-            system("clear");
-            printf("Win!\n");
+        if (scoreFirst == winScore) {
+      
+            printf("\033[H\033[JWIN\nP1\n");
             break;
         }
-    }
+        else if( scoreSecond == winScore){
+            printf("\033[H\033[JWIN\nP2\n");
+            break;
+        }
+        }
+            
+    
 
     return 0;
 }
