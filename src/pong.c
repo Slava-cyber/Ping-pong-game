@@ -104,24 +104,24 @@ int main() {
         }
 
         if (controlChar == 'a') {
-			if (racketFirstY > 2 && racketFirstY < 22) {
+			if (racketFirstY > 2) {
 			    racketFirstY--;
 			}
         }
 
         if (controlChar == 'z') {
-            if (racketFirstY > 2 && racketFirstY < 22) {
+            if (racketFirstY < 23) {
 			    racketFirstY++;
 			}
         }
 
         if (controlChar == 'k') {
-            if (racketSecondY > 2 && racketSecondY < 22) {
+            if (racketSecondY > 2) {
 				racketSecondY--;
 			}
         }
         if (controlChar == 'm') {
-            if (racketSecondY > 2 && racketSecondY < 22) {
+            if (racketSecondY < 23) {
 				racketSecondY++;
 			}
         }
