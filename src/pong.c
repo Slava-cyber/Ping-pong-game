@@ -29,7 +29,7 @@ int main() {
     int racket_first_y;
     int racket_second_y;
     int mode_game;
-    int flag_change_score;
+    int flag_change_score = 0;
 
     // initial field
     mode_game = 1;
@@ -41,10 +41,10 @@ int main() {
     racket_second_y = 12;
 
     ball_x = field_w / 2;
-    ball_y = 1;
+    ball_y = 0;
 
     int flag = 0;  // flag == 1 - game doesn't begin
-    int flag_side;  // flag shows, who starts
+    int flag_side = 0;  // flag shows, who starts
     int dir_y = 0;  // flag show the change of direction of fly ball y - direction
     char direct;  // signal for start
     int dir_x = 0;  // flag show the change of direction of fly ball x - direction
@@ -65,38 +65,20 @@ int main() {
         scanf("%c", &control_char);
 
         if (flag == 0) {
-            if (scanf("%c", &direct) == 1) {
-            // indeficate direction of fly after start down or up
-            // up - % == 0
-            // down - % == 1ßs
-
-                if (flag_side == 0 && direct == '<') {
-                    dir_y = 0;
-                    dir_x = 0;
-                    ball_x = 3;
-                    ball_y = racket_first_y;
-                }
-                if (flag_side == 0 && direct == '>') {
-                    dir_y = 1;
-                    dir_x = 0;
-                    ball_x = 3;
-                    ball_y = racket_first_y;
-                }
-                if (flag_side == 1 && direct == '<') {
+                if (flag_side == 0) {
                     dir_y = 1;
                     dir_x = 1;
-                    ball_x = 77;
-                    ball_y = racket_second_y;
+                    ball_x = field_w / 2;
+                    ball_y = 0;
                 }
-                if (flag_side == 1 && direct == '>') {
-                    dir_y = 0;
-                    dir_x = 1;
-                    ball_x = 77;
-                    ball_y = racket_second_y;
+                if (flag_side == 1) {
+                    dir_y = 1;
+                    dir_x = 0;
+                    ball_x = field_w / 2;
+                    ball_y = 0;
                 }
             flag = 1;
             }
-        }
 
         if (flag) {
         // fly ball move right
@@ -158,6 +140,21 @@ int main() {
             return 1;
         }
 
+        if (flag == 0) {
+            if (flag_side == 0) {
+                ball_x = field_w / 2;
+                ball_y = 0;
+            } else {
+                ball_x = field_w / 2;
+                ball_y = 0;
+            }
+        }
+
+        if (flag_change_score) {
+            make_score_field();
+            continue;
+        }
+
         // move racket first
         if (control_char == 'a' || control_char == 'A') {
             if (racket_first_y > 2) {
@@ -182,21 +179,6 @@ int main() {
             }
         }
 
-        if (flag == 0) {
-            if (flag_side == 0) {
-                ball_x = 3;
-                ball_y = racket_first_y;
-            } else {
-                ball_x = 77;
-                ball_y = racket_second_y;
-            }
-        }
-
-        if (flag_change_score) {
-            make_score_field();
-            continue;
-        }
-
         // calc score - if win*/
         printf("\033[H\033[J");  // устанавливаем курсор в верхний левый угол и стираем все что ниже
         make_field(racket_first_y, racket_second_y, ball_x, ball_y, score_first, score_second);
@@ -211,6 +193,7 @@ int main() {
             mode_game = 0;
         }
     }
+
 
     return 0;
 }
@@ -382,33 +365,6 @@ void make_second_win_field() {
     printf("|                                                                              |\n");  // 24
     printf("--------------------------------------------------------------------------------\n");  // 25
 }
-
-void make_score_field() {
-    printf("\033[H\033[J");
-    printf("--------------------------------------------------------------------------------\n");  // 1
-    printf("|                                                                              |\n");  // 2
-    printf("|                                                                              |\n");  // 3
-    printf("|                                                                              |\n");  // 4
-    printf("|                                                                              |\n");  // 5
-    printf("|                                                                              |\n");  // 6
-    printf("|                                                                              |\n");  // 7
-    printf("|                         _____                                                |\n");  // 8
-    printf("|                        / ____|                                               |\n");  // 9
-    printf("|                       | (___   ___ ___  _ __ ___                             |\n");  // 10
-    printf("|                        \\___ \\ / __/ _ \\| '__/ _ \\                            |\n");  // 11
-    printf("|                        ____) | (_| (_) | | |  __/                            |\n");  // 12
-    printf("|                       |_____/ \\___\\___/|_|  \\___|                            |\n");  // 13
-    printf("|                                                                              |\n");  // 14
-    printf("|                                                                              |\n");  // 15
-    printf("|                                                                              |\n");  // 16
-    printf("|                                                                              |\n");  // 17
-    printf("|                                                                              |\n");  // 18
-    printf("|                                                                              |\n");  // 19
-    printf("|                                                                              |\n");  // 20
-    printf("|                                                                              |\n");  // 24
-    printf("--------------------------------------------------------------------------------\n");  // 25
-}
-
 void make_game_over_field() {
     printf("--------------------------------------------------------------------------------\n");  // 1
     printf("|                                                                              |\n");  // 2
