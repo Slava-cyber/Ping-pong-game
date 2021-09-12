@@ -15,9 +15,9 @@ const int win_score = 21;
 void make_initial_field();
 void make_field(int racket_first_y, int racket_second_y, int ball_x, int ball_y,
                 int score_first, int score_second);
-void make_first_win_field(int score_first, int score_second);
-void make_second_win_field(int score_first, int score_second);
-void make_score_field(int score_first, int score_second);
+void make_first_win_field();
+void make_second_win_field();
+void make_score_field();
 void make_game_over_field();
 
 int main() {
@@ -29,6 +29,7 @@ int main() {
     int racket_first_y;
     int racket_second_y;
     int mode_game;
+    int flag_change_score;
 
     // initial field
     mode_game = 1;
@@ -45,18 +46,25 @@ int main() {
     int flag = 0;  // flag == 1 - game doesn't begin
     int flag_side;  // flag shows, who starts
     int dir_y = 0;  // flag show the change of direction of fly ball y - direction
-    // char start, direct;  // signal for start
     char direct;  // signal for start
     int dir_x = 0;  // flag show the change of direction of fly ball x - direction
 
     printf("\033[H\033[J");  // устанавливаем курсор в верхний левый угол и стираем все что ниже
     make_initial_field();
-
     // game
     while (mode_game) {
+        if (flag_change_score) {
+            if (scanf("%c", &direct) == 1) {
+                printf("\033[H\033[J");  // устанавливаем курсор в верхний левый угол и стираем все что ниже
+                make_field(racket_first_y, racket_second_y, ball_x, ball_y, score_first, score_second);
+                flag_change_score = 0;
+                continue;
+            }
+        }
+
         scanf("%c", &control_char);
 
-        if (flag == 0) {  // control_char == 's' &&
+        if (flag == 0) {
             if (scanf("%c", &direct) == 1) {
             // indeficate direction of fly after start down or up
             // up - % == 0
@@ -105,8 +113,7 @@ int main() {
                         score_first++;
                         flag_side = 1;
                         flag = 0;
-                        printf("\033[H\033[JWIN\nP1\n");
-                        make_score_field(score_first, score_second);
+                        flag_change_score = 1;
                     }
                 }
             } else {  // fly ball move left
@@ -122,8 +129,7 @@ int main() {
                         score_second++;
                         flag_side = 0;
                         flag = 0;
-                        printf("\033[H\033[JWIN\nP1\n");
-                        make_score_field(score_first, score_second);
+                        flag_change_score = 1;
                     }
                 }
             }
@@ -147,7 +153,7 @@ int main() {
         }
 
         if (control_char == 'q' || control_char == 'Q') {
-            printf("\033[H\033[JWIN\nP1\n");
+            printf("\033[H\033[J");
             make_game_over_field();
             return 1;
         }
@@ -186,17 +192,22 @@ int main() {
             }
         }
 
+        if (flag_change_score) {
+            make_score_field();
+            continue;
+        }
+
         // calc score - if win*/
         printf("\033[H\033[J");  // устанавливаем курсор в верхний левый угол и стираем все что ниже
         make_field(racket_first_y, racket_second_y, ball_x, ball_y, score_first, score_second);
 
         if (score_first == win_score) {
             printf("\033[H\033[J");
-            make_first_win_field(score_first, score_second);
+            make_first_win_field();
             mode_game = 0;
         } else if (score_second == win_score) {
             printf("\033[H\033[J");
-            make_second_win_field(score_first, score_second);
+            make_second_win_field();
             mode_game = 0;
         }
     }
@@ -249,7 +260,31 @@ void make_field(int racket_first_y, int racket_second_y, int ball_x, int ball_y,
                 printf("%d", score_second);
                 continue;
             }
-            if (w == 0 || w == field_w) {
+
+            if (w == 0) {
+                printf("%c", field_hr);
+                continue;
+            }
+            if (w == field_w && h != 4) {
+                printf("%c", field_hr);
+                continue;
+            }
+            if ((score_second >= 10 && score_first < 10) && w == field_w - 1 && h == 4) {
+                printf("%c", field_hr);
+                continue;
+            }
+            if ((score_second < 10 && score_first >= 10) && w == field_w - 1 && h == 4) {
+                printf("%c", field_hr);
+                continue;
+            }
+            if ((score_second >= 10 && score_first >= 10) && w == field_w - 2 && h == 4) {
+                printf("%c", field_hr);
+                continue;
+            }
+            if ((score_second >= 10 || score_first >= 10) && w == field_w && h == 4) {
+                continue;
+            }
+            if (score_second < 10 && w == field_w && h == 4) {
                 printf("%c", field_hr);
                 continue;
             }
@@ -260,7 +295,15 @@ void make_field(int racket_first_y, int racket_second_y, int ball_x, int ball_y,
             }
 
             // print middle line
-            if (w == field_w / 2) {
+            if (w == field_w / 2 && h != 4) {
+                printf("%c", field_hr);
+                continue;
+            }
+            if (score_first < 10 && w == field_w / 2 && h == 4) {
+                printf("%c", field_hr);
+                continue;
+            }
+            if (score_first >= 10 && w == (field_w / 2) - 1 && h == 4) {
                 printf("%c", field_hr);
                 continue;
             }
@@ -284,12 +327,11 @@ void make_field(int racket_first_y, int racket_second_y, int ball_x, int ball_y,
 
 
 
-void make_first_win_field(int score_first, int score_second) {
+void make_first_win_field() {
     printf("--------------------------------------------------------------------------------\n");  // 1
     printf("|                                                                              |\n");  // 2
     printf("|                                                                              |\n");  // 3
-    printf("|                  _____  _             %d   :   %d                             |\n",
-           score_first, score_second);  // 4
+    printf("|                  _____  _                                                    |\n");  // 4
     printf("|                 |  __ \\| |                                                   |\n");  // 5
     printf("|                 | |__) | | __ _ _   _  ___ _ __                              |\n");  // 6
     printf("|                 |  ___/| |/ _` | | | |/ _ \\ '__|                             |\n");  // 7
@@ -313,12 +355,11 @@ void make_first_win_field(int score_first, int score_second) {
     printf("--------------------------------------------------------------------------------\n");  // 25
 }
 
-void make_second_win_field(int score_first, int score_second) {
+void make_second_win_field() {
     printf("--------------------------------------------------------------------------------\n");  // 1
     printf("|                                                                              |\n");  // 2
     printf("|                                                                              |\n");  // 3
-    printf("|                  _____  _             %d   :   %d                             |\n",
-           score_first, score_second);  // 4
+    printf("|                  _____  _                                                    |\n");  // 4
     printf("|                 |  __ \\| |                                                   |\n");  // 5
     printf("|                 | |__) | | __ _ _   _  ___ _ __                              |\n");  // 6
     printf("|                 |  ___/| |/ _` | | | |/ _ \\ '__|                             |\n");  // 7
@@ -342,12 +383,12 @@ void make_second_win_field(int score_first, int score_second) {
     printf("--------------------------------------------------------------------------------\n");  // 25
 }
 
-void make_score_field(int score_first, int score_second) {
+void make_score_field() {
+    printf("\033[H\033[J");
     printf("--------------------------------------------------------------------------------\n");  // 1
     printf("|                                                                              |\n");  // 2
     printf("|                                                                              |\n");  // 3
-    printf("|                  %d                                         %d                 |\n",
-           score_first, score_second);  // 4
+    printf("|                                                                              |\n");  // 4
     printf("|                                                                              |\n");  // 5
     printf("|                                                                              |\n");  // 6
     printf("|                                                                              |\n");  // 7
