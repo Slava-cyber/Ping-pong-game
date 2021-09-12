@@ -41,7 +41,7 @@ int main() {
     racket_second_y = 12;
 
     ball_x = field_w / 2;
-    ball_y = 1;
+    ball_y = 0;
 
     int flag = 0;  // flag == 1 - game doesn't begin
     int flag_side;  // flag shows, who starts
@@ -65,38 +65,20 @@ int main() {
         scanf("%c", &control_char);
 
         if (flag == 0) {
-            if (scanf("%c", &direct) == 1) {
-            // indeficate direction of fly after start down or up
-            // up - % == 0
-            // down - % == 1ßs
-
-                if (flag_side == 0 && direct == '<') {
-                    dir_y = 0;
-                    dir_x = 0;
-                    ball_x = 3;
-                    ball_y = racket_first_y;
-                }
-                if (flag_side == 0 && direct == '>') {
-                    dir_y = 1;
-                    dir_x = 0;
-                    ball_x = 3;
-                    ball_y = racket_first_y;
-                }
-                if (flag_side == 1 && direct == '<') {
+                if (flag_side == 0) {
                     dir_y = 1;
                     dir_x = 1;
-                    ball_x = 77;
-                    ball_y = racket_second_y;
+                    ball_x = field_w / 2;
+                    ball_y = 0;
                 }
-                if (flag_side == 1 && direct == '>') {
-                    dir_y = 0;
-                    dir_x = 1;
-                    ball_x = 77;
-                    ball_y = racket_second_y;
+                if (flag_side == 1) {
+                    dir_y = 1;
+                    dir_x = 0;
+                    ball_x = field_w / 2;
+                    ball_y = 0;
                 }
             flag = 1;
             }
-        }
 
         if (flag) {
         // fly ball move right
@@ -184,11 +166,11 @@ int main() {
 
         if (flag == 0) {
             if (flag_side == 0) {
-                ball_x = 3;
-                ball_y = racket_first_y;
+                ball_x = field_w / 2;
+                ball_y = 0;
             } else {
-                ball_x = 77;
-                ball_y = racket_second_y;
+                ball_x = field_w / 2;
+                ball_y = 0;
             }
         }
 
@@ -211,6 +193,7 @@ int main() {
             mode_game = 0;
         }
     }
+
 
     return 0;
 }
