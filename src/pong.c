@@ -10,7 +10,7 @@ const char racket_first = ']';
 const char racket_second = '[';
 const int ball_h = 1;
 const char ball_c = 'o';
-const int win_score = 2;
+const int win_score = 21;
 void make_initial_field();
 void make_field(int racket_first_y, int racket_second_y, int ball_x, int ball_y,
                 int score_first, int score_second);
