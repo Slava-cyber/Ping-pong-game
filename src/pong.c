@@ -28,7 +28,7 @@ int main() {
     int racket_first_y;
     int racket_second_y;
     int mode_game;
-    int flag_change_score=0;
+    int flag_change_score = 0;
 
     // initial field
     mode_game = 1;
@@ -43,7 +43,7 @@ int main() {
     ball_y = 0;
 
     int flag = 0;  // flag == 1 - game doesn't begin
-    int flag_side=0;  // flag shows, who starts
+    int flag_side = 0;  // flag shows, who starts
     int dir_y = 0;  // flag show the change of direction of fly ball y - direction
     char direct;  // signal for start
     int dir_x = 0;  // flag show the change of direction of fly ball x - direction
