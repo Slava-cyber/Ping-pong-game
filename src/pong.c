@@ -140,6 +140,21 @@ int main() {
             return 1;
         }
 
+        if (flag == 0) {
+            if (flag_side == 0) {
+                ball_x = field_w / 2;
+                ball_y = 0;
+            } else {
+                ball_x = field_w / 2;
+                ball_y = 0;
+            }
+        }
+
+        if (flag_change_score) {
+            make_score_field();
+            continue;
+        }
+
         // move racket first
         if (control_char == 'a' || control_char == 'A') {
             if (racket_first_y > 2) {
@@ -162,21 +177,6 @@ int main() {
             if (racket_second_y < 23) {
                 racket_second_y++;
             }
-        }
-
-        if (flag == 0) {
-            if (flag_side == 0) {
-                ball_x = field_w / 2;
-                ball_y = 0;
-            } else {
-                ball_x = field_w / 2;
-                ball_y = 0;
-            }
-        }
-
-        if (flag_change_score) {
-            make_score_field();
-            continue;
         }
 
         // calc score - if win*/
